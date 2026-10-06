@@ -8,7 +8,7 @@ static void greet_user(const char *name) {
     char greeting[32];
     /* UNSAFE variant: same strcpy-into-fixed-stack-buffer idiom as main(),
        different call site and smaller buffer. */
-    strcpy(greeting, name);
+    snprintf(greeting, sizeof greeting, "%s", name);
     printf("Hello, %s\n", greeting);
 }
 
@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
         return 1;
     }
     /* UNSAFE: no bounds checking */
-    strcpy(buf, argv[1]);
+    snprintf(buf, sizeof buf, "%s", argv[1]);
     printf("You entered: %s\n", buf);
     greet_user(argv[2]);
     return 0;
