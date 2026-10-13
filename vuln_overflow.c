@@ -18,7 +18,11 @@ int main(int argc, char **argv) {
         printf("Usage: %s <input> <name>\n", argv[0]);
         return 1;
     }
-    /* UNSAFE: no bounds checking */
+    /* Reject input that will not fit the buffer before copying. */
+    if (strlen(argv[1]) > sizeof(buf)) {
+        fprintf(stderr, "%s: input too long\n", argv[0]);
+        return 1;
+    }
     strcpy(buf, argv[1]);
     printf("You entered: %s\n", buf);
     greet_user(argv[2]);
